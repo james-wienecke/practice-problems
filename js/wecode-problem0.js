@@ -10,13 +10,19 @@
      */
 
     let maxDiffBetweenIncElem = (nums) => {
-        let maxDiff = -1;
-        nums.forEach((val, index, array) =>{
-            if (val < array[index + 1] && array[index + 1] - val > maxDiff) {
-                maxDiff = array[index + 1] - val;
+        let maxDiff = -1; // record maximum difference btween nums[i] and nums[j]
+        for (let i = 0; i < nums.length; i++) { // go through array, checking each value against all further values in order
+            let maxInPass = -1; // each comparison through the end of the array will record its maximum difference
+            if (i + 1 < nums.length) {  // ensure j does not try to continue past end of array
+                for (let j = i + 1; j < nums.length; j++) { // check further values in order
+                    if (nums[i] < nums[j] && nums[j] - nums[i] > maxInPass) {
+                        maxInPass = nums[j] - nums[i];  // only update maxInPass if difference critera are met
+                    }
+                }
             }
-        });
-        return max;
+            if (maxInPass > maxDiff) maxDiff = maxInPass;   // if necessary, update maxDiff to hold highest found difference
+        }
+        return maxDiff;
     }
 
     console.log(maxDiffBetweenIncElem([7,1,5,4]));
