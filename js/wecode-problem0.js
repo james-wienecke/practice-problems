@@ -11,17 +11,17 @@
 
     let maxDiffBetweenIncElem = (nums) => {
         let maxDiff = -1; // record maximum difference btween nums[i] and nums[j]
-        for (let i = 0; i < nums.length; i++) { // go through array, checking each value against all further values in order
-            let maxInPass = -1; // each comparison through the end of the array will record its maximum difference
-            if (i + 1 < nums.length) {  // ensure j does not try to continue past end of array
-                for (let j = i + 1; j < nums.length; j++) { // check further values in order
-                    if (nums[i] < nums[j] && nums[j] - nums[i] > maxInPass) {
-                        maxInPass = nums[j] - nums[i];  // only update maxInPass if difference critera are met
-                    }
-                }
+        let minNow = Number.MAX_SAFE_INTEGER; // current minimum initially set to max value
+        for (let i = 0; i < nums.length; i++) {
+            // if current minimum is greater than current element's value, we've found a new minimum to use
+            if(minNow > nums[i]) minNow = nums[i];
+            // if current element's value is greater than the current minimum,
+            if(minNow < nums[i]) {
+                // then check if it's the greatest difference so far and if so, update maxDiff
+                if (maxDiff < nums[i] - minNow) maxDiff = nums[i] - minNow;
             }
-            if (maxInPass > maxDiff) maxDiff = maxInPass;   // if necessary, update maxDiff to hold highest found difference
         }
+
         return maxDiff;
     }
 
